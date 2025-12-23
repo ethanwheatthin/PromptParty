@@ -1,5 +1,5 @@
 import { Server as SocketIOServer, Socket } from 'socket.io';
-import { verifyToken, generateToken } from '../services/auth';
+import { verifyToken } from '../services/auth';
 import { redis } from '../server';
 
 interface AuthPayload {
@@ -19,7 +19,7 @@ export function registerSocketHandlers(io: SocketIOServer): void {
     console.log('Client connected:', socket.id);
 
     // Auth handler - must be called first
-    socket.on('auth', async (payload: AuthPayload, callback) => {
+    socket.on('auth', async (payload: AuthPayload, callback: (response: unknown) => void) => {
       try {
         let playerId: string | undefined;
         let roomId: string | undefined;
@@ -63,7 +63,7 @@ export function registerSocketHandlers(io: SocketIOServer): void {
     // Placeholder for other socket events
     socket.on('disconnect', async () => {
       console.log('Client disconnected:', socket.id);
-      
+
       // Remove presence from Redis
       if (socket.playerId && socket.roomId) {
         await redis.del(`presence:${socket.roomId}:${socket.playerId}`);

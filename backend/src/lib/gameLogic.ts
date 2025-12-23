@@ -43,10 +43,7 @@ export function hasReachedCutThreshold(
   activeNonActorCount: number,
   config: GameConfig = DEFAULT_GAME_CONFIG
 ): boolean {
-  const threshold = calculateCutVoteThreshold(
-    activeNonActorCount,
-    config.cutVoteThresholdPercent
-  );
+  const threshold = calculateCutVoteThreshold(activeNonActorCount, config.cutVoteThresholdPercent);
   return cutVoteCount >= threshold;
 }
 
@@ -60,9 +57,7 @@ export function calculatePerformanceTimestamps(
   startedAt: Date,
   config: GameConfig = DEFAULT_GAME_CONFIG
 ): { minCutoffAt: Date; maxEndAt: Date } {
-  const minCutoffAt = new Date(
-    startedAt.getTime() + config.minPerformanceDurationSeconds * 1000
-  );
+  const minCutoffAt = new Date(startedAt.getTime() + config.minPerformanceDurationSeconds * 1000);
   const maxEndAt = new Date(startedAt.getTime() + config.maxPerformanceDurationSeconds * 1000);
   return { minCutoffAt, maxEndAt };
 }

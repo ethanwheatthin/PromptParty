@@ -37,7 +37,7 @@ void server.register(fastifySocketIO, {
 });
 
 // Health check endpoint
-server.get('/health', async () => {
+server.get('/health', () => {
   return { status: 'ok', timestamp: new Date().toISOString() };
 });
 
@@ -48,7 +48,7 @@ server.ready((err) => {
     process.exit(1);
   }
 
-  const io: SocketIOServer = server.io;
+  const io: SocketIOServer = server.io as SocketIOServer;
   registerSocketHandlers(io);
   server.log.info('Socket.IO handlers registered');
 });
